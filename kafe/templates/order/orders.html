@@ -1,0 +1,35 @@
+{% extends 'index_template.html' %}
+
+{% block content %}
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>№ заказа</th>
+        <th>№ стола</th>
+        <th>Список блюд</th>
+        <th>общая стоимость</th>
+        <th>Статус заказа</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    <tr align="center">
+        <td> {{ order.id }}</td>
+        <td>{{ order.table_number }}</td>
+        <td>
+        {% for item in order.items.all %}
+            {{ item.name }} - {{ item.price }} <br>
+        {% endfor%}
+        </td>
+        <td>{{ order.total_price }}</td>
+        <td>{{ order.get_status_display }}</td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
+

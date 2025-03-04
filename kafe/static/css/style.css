@@ -1,0 +1,7 @@
+body {
+    background: linear-gradient(to right, #333333, #aaaaaa, #333333); /* Фиолетовый градиент */
+}
+
+.custom-rounded {
+        border-radius: 5px; /* Установите нужное значение радиуса */
+    }
