@@ -1,0 +1,35 @@
+{% extends 'index_template.html' %}
+
+{% block content %}
+
+<div class="container mt-2 mb-2  bg-body-tertiary">
+    <div class="row gx-1 justify-content-center align-items-center">
+        <div class="col-2">
+
+        </div>
+
+        <div class="col-8 bg-body-secondary custom-rounded p-2 mt-2 mb-2">
+            Вы действительно хотите удалить <strong> "{{ item.name }}"</strong>?
+            <p>
+                <form action="{% url 'delete_item' item.id %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">Да</button>
+                <a href="{% url 'list_menu' %}" class="btn btn-outline-dark">Нет</a>
+            </form>
+
+<!--                <button class="btn btn-danger" type="submit">Да</button>-->
+<!--                <a href="{% url 'delete_item' item.pk %}" class="btn btn-outline-dark">Да</a>-->
+<!--                <a href="{% url 'list_menu' %}" class="btn btn-outline-dark">Нет</a>-->
+
+            </p>
+        </div>
+
+        <div class="col-2">
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

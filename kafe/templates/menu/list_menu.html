@@ -25,9 +25,9 @@
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
-        <tr>
+        <tr align="center">
             <th>Наименование блюда</th>
-            <th>Цена</th>
+            <th>Цена, руб.</th>
             <th>Статус блюда</th>
             <th>Действие</th>
         </tr>
@@ -35,22 +35,20 @@
         <tbody>
         {% for mn in menu %}
         <tr align="center">
-            <td> {{ mn.name }}</td>
+            <td class="text-start">  &nbsp; &nbsp;{{ mn.name }}</td>
             <td>{{ mn.price }}</td>
             {% if mn.active_is %}
                 <td>активная</td>
             {% else %}
                 <td>неактивная</td>
             {% endif %}
-            <td><a href="#" class="btn btn-danger">Удалить</a>
+            <td><a href="{% url 'confirm_delete_item' mn.id %}" class="btn btn-danger">Удалить</a>
             <a href="{% url 'menu_edit_item' mn.id %}" class="btn btn-primary">Изменить</a></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
-
-
 
 {% endblock %}
 

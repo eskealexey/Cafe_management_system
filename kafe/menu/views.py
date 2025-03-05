@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Item
 from .forms import ItemsForm
@@ -8,7 +9,7 @@ def list_menu(request):
     """
     Список блюд
     """
-    menu = Item.objects.all().order_by('name')
+    menu = Item.objects.filter(delete_is=False).select_related().order_by('name')
     if request.method == 'POST':
         form = ItemsForm(request.POST)
         if form.is_valid():
@@ -47,3 +48,29 @@ def menu_edit_item(request, id):
         'title': 'Редактирование блюда',
     }
     return render(request, 'menu/edit_item.html', context=context)
+
+
+def confirm_delete_item(request, id):
+    """
+    Подтверждение удаления блюда
+    """
+    item = Item.objects.get(pk=id)
+    if request.method == 'GET':
+
+        context = {
+            'id': id,
+            'item': item,
+            'title': 'Подтверждение удаления блюда',
+        }
+        return render(request, 'menu/confirm_delete_item.html', context=context)
+
+
+def delete_item(request, id):
+    """
+    Удаление блюда
+    """
+    item = get_object_or_404(Item, id=id)
+    item.delete_is = True
+    item.active_is = False
+    item.save()
+    return redirect('list_menu')

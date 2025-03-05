@@ -22,7 +22,8 @@ from kafe import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('order.urls')),
+    path('', include('home.urls')),
+    path('order/', include('order.urls')),
     path('menu/', include('menu.urls')),
 ]
 if settings.DEBUG:
