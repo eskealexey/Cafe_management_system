@@ -1,0 +1,56 @@
+{% extends 'index_template.html' %}
+
+{% block content %}
+<div class="container mt-2 mb-2  bg-body-tertiary">
+    <h4 class="text-center">Добавить блюдо</h4>
+    <div class="row gx-1 justify-content-center align-items-center">
+        <div class="col-4 ">
+
+        </div>
+
+        <div class="col-4 bg-body-secondary custom-rounded p-2 mt-2 mb-2">
+                <form method="post" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary" type="submit">Добавить</button>
+                </form>
+        </div>
+
+        <div class="col-4 ">
+
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Наименование блюда</th>
+            <th>Цена</th>
+            <th>Статус блюда</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for mn in menu %}
+        <tr align="center">
+            <td> {{ mn.name }}</td>
+            <td>{{ mn.price }}</td>
+            {% if mn.active_is %}
+                <td>активная</td>
+            {% else %}
+                <td>неактивная</td>
+            {% endif %}
+            <td><a href="#" class="btn btn-danger">Удалить</a>
+            <a href="{% url 'menu_edit_item' mn.id %}" class="btn btn-primary">Изменить</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+{% endblock %}
+
