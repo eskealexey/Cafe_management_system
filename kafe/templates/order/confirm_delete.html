@@ -9,7 +9,7 @@
         </div>
 
         <div class="col-8 bg-body-secondary custom-rounded p-2 mt-2 mb-2">
-            Вы действительно хотите удалить <strong> "{{ order.id}}"</strong>?
+            Вы действительно хотите удалить заказ № <strong> "{{ order.id}}"</strong>?
             <p>
                 <form action="{% url 'delete_order' order.id %}" method="post">
                 {% csrf_token %}
