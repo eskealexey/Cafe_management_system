@@ -6,9 +6,9 @@ from menu.models import Item
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('0', 'В ожидании'),
-        ('1', 'Готово'),
-        ('2', 'Оплачено'),
+        ('в', 'В ожидании'),
+        ('г', 'Готово'),
+        ('о', 'Оплачено'),
     ]
     table_number = models.IntegerField(verbose_name='Номер стола')
     items = models.ManyToManyField(
@@ -27,7 +27,7 @@ class Order(models.Model):
         max_length=1,
         blank=True,
         choices=STATUS_CHOICES,
-        default='0',
+        default='в',
         verbose_name='Статус заказа'
     )
 

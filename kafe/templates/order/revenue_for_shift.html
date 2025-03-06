@@ -1,0 +1,16 @@
+{% extends 'index_template.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center">
+        <div class="card text-center bg-secondary text-white" style="width: 25rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+                <hr>
+                <p class="card-text">Выручка за смену составила <strong class="text-warning">{{ revenue }}</strong> руб.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

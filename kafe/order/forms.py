@@ -12,3 +12,12 @@ class OrderForm(ModelForm):
             'items': SelectMultiple(attrs={'class': 'form-control', }),
             # 'status': Select(attrs={'class': 'form-control', }),
         }
+
+
+class OrderStatusForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = ['status']
+        # widgets = {
+        #     'status': Select(attrs={'class': 'form-control', }),
+        # }

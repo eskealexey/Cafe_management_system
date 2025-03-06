@@ -33,15 +33,15 @@
                           </a>
                           <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'list_menu' %}">Меню</a></li>
-                            <li><a class="dropdown-item" href="#">Выручка</a></li>
+                            <li><a class="dropdown-item" href="{% url 'revenue_for_shift' %}">Выручка</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
                           </ul>
                         </li>
 
                       </ul>
-                      <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
+                      <form action="{% url 'search_orders' %}" method="GET" class="d-flex" role="search">
+                        <input class="form-control me-2" style="width: 100px;" type="search" placeholder="Поиск" name="q" aria-label="Поиск">
                         <button class="btn btn-outline-success" type="submit">Поиск</button>
                       </form>
                     </div>
@@ -58,7 +58,7 @@
                     <ul class="list-group">
                       <li class="list-group-item"><a class="nav-link" href="{% url 'order_add' %}">Добавить заказ</a></li>
                       <li class="list-group-item"><a class="nav-link" href="{% url 'list_menu' %}">Меню</a></li>
-                      <li class="list-group-item">Выручка</li>
+                      <li class="list-group-item"><a class="nav-link" href="{% url 'revenue_for_shift' %}">Выручка</a></li>
                     </ul>
                 </div>
             </div>
