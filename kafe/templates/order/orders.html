@@ -10,12 +10,15 @@
             <th>Список блюд</th>
             <th>общая стоимость</th>
             <th>Статус заказа</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for order in orders %}
         <tr align="center">
-            <td> {{ order.id }}</td>
+            <td>
+<a href="#" class="btn btn-seccondary btn-sm">{{ order.id }}</a>
+                </td>
             <td>{{ order.table_number }}</td>
             <td>
             {% for item in order.items.all %}
@@ -24,6 +27,9 @@
             </td>
             <td>{{ order.total_price }}</td>
             <td>{{ order.get_status_display }}</td>
+            <td>
+                <a href="{% url 'confirm_delete_order' order.id %}" class="btn btn-danger btn-sm">del</a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>

@@ -18,13 +18,6 @@ def orders_view (request):
     return render(request, 'order/orders.html', context=context)
 
 
-def get_total_price(items):
-    total_price = 0
-    for item in items:
-        total_price += item.price
-    return total_price
-
-
 def order_add(request):
     """
     Добавление заказа
@@ -32,13 +25,9 @@ def order_add(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            table_number = form.cleaned_data.get('table_number')
-            items = form.cleaned_data.get('items')
-            total_price = get_total_price(items)
             form.save()
             order = Order.objects.last()
-            order.total_price = total_price
-            order.save()
+            order.calculate_total_price()
             return redirect('view_orders')
     else:
         form = OrderForm()
@@ -49,3 +38,26 @@ def order_add(request):
     }
     return render(request, 'order/order_add.html', context=context)
 
+
+def confirm_delete_order(request, id):
+    """
+    Подтверждение удаления заказа
+    """
+    order = Order.objects.get(pk=id)
+    if request.method == 'GET':
+
+        context = {
+            'id': id,
+            'order': order,
+            'title': 'Подтверждение удаления заказа',
+        }
+        return render(request, 'order/confirm_delete.html', context=context)
+
+def delete_order(request, id):
+    """
+    Удаление заказа
+    """
+    order = Order.objects.get(pk=id)
+    order.delete()
+
+    return redirect('view_orders')
