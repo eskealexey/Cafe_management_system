@@ -43,8 +43,20 @@
 Гавная страница:
 ![изображение](https://github.com/user-attachments/assets/3612df7e-9d89-4176-9121-4649f97860e7)
 
-Страница заполненя меню:
+Страница заполнения меню:
 ![menu](https://github.com/user-attachments/assets/69efb8f1-dd9f-42b0-aafa-b2fdf0a2d2e0)
+
+Страница добавления заказов:
+![addorder](https://github.com/user-attachments/assets/24328e3a-4a6c-4504-a506-0be25b17aced)
+
+Страница показа заказов:
+![vieworder](https://github.com/user-attachments/assets/72cf45d2-347d-4169-8540-ffeea0caeeb3)
+
+Страница изменения статуса заказа:
+![changestatus](https://github.com/user-attachments/assets/61833411-dbea-408e-8efa-ab6e1fa5754f)
+
+Просмотр выручки за смену:
+![revenue](https://github.com/user-attachments/assets/b4ce0631-704c-43ec-897f-eb2fd3f736c5)
 
 
 
