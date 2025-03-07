@@ -43,6 +43,9 @@
 Гавная страница:
 ![изображение](https://github.com/user-attachments/assets/3612df7e-9d89-4176-9121-4649f97860e7)
 
+Страница заполненя меню:
+![menu](https://github.com/user-attachments/assets/69efb8f1-dd9f-42b0-aafa-b2fdf0a2d2e0)
+
 
 
 
