@@ -8,4 +8,4 @@
 
 1. Клонируйте репозиторий:
    
-   git clone [https://github.com/ваш-username/ваш-репозиторий.git](https://github.com/eskealexey/Cafe_management_system.git)
+   git clone [https://github.com/eskealexey/Cafe_management_system.git]
