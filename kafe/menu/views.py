@@ -4,8 +4,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Item
 from .forms import ItemsForm
 
-@login_required
+
 def list_menu(request):
+    """
+    Список блюд
+    """
     menu = Item.objects.filter(delete_is=False).order_by('name')
     if request.method == 'POST':
         form = ItemsForm(request.POST)
@@ -22,8 +25,11 @@ def list_menu(request):
     }
     return render(request, 'menu/list_menu.html', context=context)
 
-@login_required
+
 def menu_edit_item(request, id):
+    """
+    Редактирование блюда
+    """
     item = get_object_or_404(Item, pk=id)
     if request.method == 'POST':
         form = ItemsForm(request.POST, instance=item)
@@ -40,8 +46,11 @@ def menu_edit_item(request, id):
     }
     return render(request, 'menu/edit_item.html', context=context)
 
-@login_required
+
 def confirm_delete_item(request, id):
+    """
+    Подтверждение удаления блюда
+    """
     item = get_object_or_404(Item, pk=id)
     context = {
         'id': id,
@@ -50,9 +59,11 @@ def confirm_delete_item(request, id):
     }
     return render(request, 'menu/confirm_delete_item.html', context=context)
 
-@login_required
-@permission_required('order.delete_item', raise_exception=True)
+
 def delete_item(request, id):
+    """
+    Удаление блюда
+    """
     item = get_object_or_404(Item, id=id)
     if not item.delete_is:
         item.delete_is = True
