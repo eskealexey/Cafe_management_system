@@ -10,22 +10,42 @@
    
    git clone https://github.com/eskealexey/Cafe_management_system.git
 
-    Создайте виртуальное окружение (рекомендуется):
+2. Создайте виртуальное окружение (рекомендуется):
+   python3 -m venv venv
 
-        Установите virtualenv:
-        pip install virtualenv
+3. Активируйте его:
+  На Windows:
+  venv\Scripts\activate
 
-        Создайте виртуальное окружение:
-        virtualenv venv
+  На macOS/Linux:
+  source venv/bin/activate
 
-        Активируйте его:
-            На Windows:
-            venv\Scripts\activate
+4. Установите зависимости:
+  pip install -r requirements.txt
 
-            На macOS/Linux:
-            source venv/bin/activate
+5. Перейдите в каталог проекта kafe
 
-    Установите зависимости:
+6. Запусите миграцию:
+   python3 manage.py makemigrations
+   python3 manage.py makemigrations menu
+   python3 manage.py makemigrations order
+   python3 manage.py migrate
 
-        Если у вас есть requirements.txt, установите зависимости:
-        pip install -r requirements.txt
+7. Создайте суперпользователя:
+   python3 manage.py createsuperuser
+
+8. Запустите проект на выполнение:
+   python3 manage.py runserver
+
+9. В браузере перейдите по адресу: http://127.0.0.1:8000
+
+
+
+
+
+    
+
+
+
+
+
