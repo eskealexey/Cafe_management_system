@@ -3,8 +3,8 @@ from django.db import models
 from menu.models import Item
 
 
-
 class Order(models.Model):
+    objects = None
     STATUS_CHOICES = [
         ('в', 'В ожидании'),
         ('г', 'Готово'),

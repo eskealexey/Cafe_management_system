@@ -133,7 +133,6 @@ class ConfirmDeleteItemView(DetailView):
         return context
 
 
-
 def delete_item(request, pk):
     """
     Удаление блюда

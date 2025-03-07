@@ -1,14 +1,15 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import orders_view, order_add, confirm_delete_order, delete_order, search_orders, change_status, revenue_for_shift
 
 
+from .views import *
 urlpatterns = [
-    path('view/', orders_view, name='view_orders'),
-    path('add/', order_add, name='order_add'),
-    path('confdelete/<int:id>/', confirm_delete_order, name='confirm_delete_order'),
-    path('delete/<int:id>/', delete_order, name='delete_order'),
-    path('search/', search_orders, name='search_orders'),
-    path('change/<int:id>/', change_status, name='change_status'),
-    path('revenue/', revenue_for_shift, name='revenue_for_shift'),
-]
+    path('view/', OrdersView.as_view(), name='view_orders'),
+    path('add/', OrderAddView.as_view(), name='order_add'),
+    path('confdelete/<int:pk>/', ConfirmDeleteOrderView.as_view(), name='confirm_delete_order'),
+    path('delete/<int:pk>/', DeleteOrderView.as_view(), name='delete_order'),
+    path('search/', SearchOrdersView.as_view(), name='search_orders'),
+    path('change/<int:pk>/', ChangeStatusView.as_view(), name='change_status'),
+    path('revenue/', RevenueForShiftView.as_view(), name='revenue_for_shift'),
+    path('clean/', clean_order, name='clean_order')
+    ]

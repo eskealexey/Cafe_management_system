@@ -1,28 +1,44 @@
+from django.contrib import messages
+from django.db import DatabaseError
 from django.db.models import Q, Sum
 from django.shortcuts import render, redirect
+from django.views import View
+from django.views.generic import TemplateView
 
-from order.forms import OrderForm, OrderStatusForm
-from order.models import Order
+from .forms import OrderForm, OrderStatusForm
+from .models import Order
 
 
-def orders_view (request):
+class OrdersView(View):
     """
     Список заказов
     """
-    orders = Order.objects.all().order_by('-id')
+    def get(self, request):
+        """
+        Список заказов
+        """
+        orders = Order.objects.all().order_by('-id')
 
-    context = {
-        'orders': orders,
-        'title': 'Список заказов',
-    }
-    return render(request, 'order/orders.html', context=context)
+        context = {
+            'orders': orders,
+            'title': 'Список заказов',
+        }
+        return render(request, 'order/orders.html', context=context)
 
 
-def order_add(request):
+class OrderAddView(View):
     """
     Добавление заказа
     """
-    if request.method == 'POST':
+    def get(self, request):
+        form = OrderForm()
+        context = {
+            'title': 'Добавление заказа',
+            'form': form,
+        }
+        return render(request, 'order/order_add.html', context=context)
+
+    def post(self, request):
         form = OrderForm(request.POST)
         if form.is_valid():
             try:
@@ -34,81 +50,101 @@ def order_add(request):
                 # Логирование ошибки
                 print(f"Ошибка при сохранении заказа: {e}")
                 return render(request, 'order/error.html', {'message': 'Ошибка при сохранении заказа', 'title': 'Ошибка'})
-    else:
-        form = OrderForm()
-
-    context = {
-        'title': 'Добавление заказа',
-        'form': form,
-    }
-    return render(request, 'order/order_add.html', context=context)
+        else:
+            context = {
+                'title': 'Добавление заказа',
+                'form': form,
+            }
+            return render(request, 'order/order_add.html', context=context)
 
 
-def confirm_delete_order(request, id):
-    """
-    Подтверждение удаления заказа
-    """
-    try:
-        order = Order.objects.get(pk=id)
-    except Order.DoesNotExist:
-        # Обработка случая, когда заказ не найден
-        return render(request, 'order/error.html', {'message': 'Заказ не найден', 'title': 'Ошибка'})
+class ConfirmDeleteOrderView(View):
+    def get(self, request, pk):
+        """
+        Подтверждение удаления заказа
+        """
+        try:
+            order = Order.objects.get(pk=pk)
+        except Order.DoesNotExist:
+            # Обработка случая, когда заказ не найден
+            return render(request, 'order/error.html', {'message': 'Заказ не найден', 'title': 'Ошибка'})
 
-    if request.method == 'GET':
         context = {
-            'id': id,
+            'id': pk,
             'order': order,
             'title': 'Подтверждение удаления заказа',
         }
         return render(request, 'order/confirm_delete.html', context=context)
 
 
-def delete_order(request, id):
-    """
-    Удаление заказа
-    """
-    try:
-        order = Order.objects.get(pk=id)
-        order.delete()
-    except Order.DoesNotExist:
-        # Обработка случая, когда заказ не найден
-        return render(request, 'order/error.html', {'message': 'Заказ не найден', 'title': 'Ошибка'})
-
-    return redirect('view_orders')
-
-
-def search_orders(request):
-    """
-    Поиск заказов по номеру заказа или статусу
-    """
-    query = request.GET.get('q')
-    if query:
+class DeleteOrderView(View):
+    def post(self, request, pk):
+        """
+        Удаление заказа
+        """
         try:
-            orders = Order.objects.filter(Q(id__icontains=query) | Q(status__icontains=query.lower()))
-        except Exception as e:
-            # Логирование ошибки
-            print(f"Ошибка при поиске заказов: {e}")
-            # orders = Order.objects.all()
+            order = Order.objects.get(pk=pk)
+            order.delete()
+        except Order.DoesNotExist:
+            # Обработка случая, когда заказ не найден
             return render(request, 'order/error.html', {'message': 'Заказ не найден', 'title': 'Ошибка'})
-    else:
-        orders = Order.objects.all()
 
-    context = {
-        'orders': orders,
-    }
-    return render(request, 'order/orders.html', context=context)
+        return redirect('view_orders')
 
 
-def change_status(request, id):
-    """
-    Изменение статуса заказа
-    """
-    try:
-        order = Order.objects.get(id=id)
-    except Order.DoesNotExist:
-        return render(request, 'order/error.html', {'message': 'Заказ не найден', 'title': 'Ошибка'})
+class SearchOrdersView(View):
+    def get(self, request):
+        """
+        Поиск заказов по номеру заказа или статусу
+        """
+        query = request.GET.get('q')
+        if query == 'o':
+            query = 'о'
+        elif query == 'd':
+            query = 'в'
+        elif query == 'u':
+            query = 'г'
+        if query:
+            try:
+                orders = Order.objects.filter(Q(id__icontains=query) | Q(status__icontains=query.lower()))
+            except Exception as e:
+                # Логирование ошибки
+                print(f"Ошибка при поиске заказов: {e}")
+                # orders = Order.objects.all()
+                return render(request, 'order/error.html', {'message': 'Заказ не найден', 'title': 'Ошибка'})
+        else:
+            orders = Order.objects.all()
 
-    if request.method == 'POST':
+        context = {
+            'orders': orders,
+        }
+        return render(request, 'order/orders.html', context=context)
+
+
+class ChangeStatusView(View):
+    def get(self, request, pk):
+        """
+        Изменение статуса заказа
+        """
+        try:
+            order = Order.objects.get(id=pk)
+        except Order.DoesNotExist:
+            return render(request, 'order/error.html', {'message': 'Заказ не найден', 'title': 'Ошибка'})
+
+        form = OrderStatusForm(instance=order)
+        context = {
+            'order': order,
+            'form': form,
+            'title': 'Изменение статуса заказа',
+        }
+        return render(request, 'order/change_status.html', context=context)
+
+    def post(self, request, pk):
+        try:
+            order = Order.objects.get(id=pk)
+        except Order.DoesNotExist:
+            return render(request, 'order/error.html', {'message': 'Заказ не найден', 'title': 'Ошибка'})
+
         form = OrderStatusForm(request.POST, instance=order)
         if form.is_valid():
             try:
@@ -118,31 +154,40 @@ def change_status(request, id):
                 # Логирование ошибки
                 print(f"Ошибка при изменении статуса заказа: {e}")
                 return render(request, 'order/error.html', {'message': 'Ошибка при изменении статуса заказа', 'title': 'Ошибка'})
-    else:
-        form = OrderStatusForm(instance=order)
+
+
+class RevenueForShiftView(TemplateView):
+    template_name = 'order/revenue_for_shift.html'
+
+    def get_context_data(self, **kwargs):
+        """
+        Выручка за смену
+        """
+        try:
+            revenue = Order.objects.filter(status='о').aggregate(total_revenue=Sum('total_price'))['total_revenue']
+            if revenue is None:
+                revenue = 0  # Если заказов нет, выручка равна 0
+        except Exception as e:
+            # Логирование ошибки
+            print(f"Ошибка при расчете выручки: {e}")
+            revenue = 0
+
         context = {
-            'order': order,
-            'form': form,
-            'title': 'Изменение статуса заказа',
+            'revenue': revenue,
+            'title': 'Выручка за смену',
         }
-        return render(request, 'order/change_status.html', context=context)
+        return context
 
 
-def revenue_for_shift(request):
+def clean_order(request):
     """
-    Выручка за смену
+    Очистка заказов за смену
     """
-    try:
-        revenue = Order.objects.filter(status='о').aggregate(total_revenue=Sum('total_price'))['total_revenue']
-        if revenue is None:
-            revenue = 0  # Если заказов нет, выручка равна 0
-    except Exception as e:
-        # Логирование ошибки
-        print(f"Ошибка при расчете выручки: {e}")
-        revenue = 0
-
-    context = {
-        'revenue': revenue,
-        'title': 'Выручка за смену',
-    }
-    return render(request, 'order/revenue_for_shift.html', context=context)
+    if request.method == 'GET':
+        try:
+            # Очищаем заказы за смену
+            Order.objects.all().delete()
+            messages.success(request, 'Заказы успешно очищены.')
+        except DatabaseError as e:
+            messages.error(request, f'Ошибка при очистке заказов: {e}')
+    return redirect('view_orders')

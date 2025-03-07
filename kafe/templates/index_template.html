@@ -1,5 +1,6 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +14,7 @@
     <header class="container">
         <div class="row">
             <div class="col-12">
-                <h1>Cистема управления заказами в кафе</h1>
+                <h1 class="text-center">Cистема управления заказами в кафе</h1>
             </div>
             <div class="col-12">
               <nav class="navbar navbar-expand-lg bg-body-tertiary custom-rounded">
@@ -35,13 +36,22 @@
                             <li><a class="dropdown-item" href="{% url 'list_menu' %}">Меню</a></li>
                             <li><a class="dropdown-item" href="{% url 'revenue_for_shift' %}">Выручка</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+                            <li>
+                              <button onclick="confirmCleanOrders()" class="btn btn-danger">Очистить заказы</button></li>
+                                <script>
+                                    function confirmCleanOrders() {
+                                        if (confirm('Вы уверены, что хотите очистить все заказы за смену?')) {
+                                            window.location.href = "{% url 'clean_order' %}";
+                                        }
+                                    }
+                                </script>
                           </ul>
                         </li>
 
                       </ul>
                       <form action="{% url 'search_orders' %}" method="GET" class="d-flex" role="search">
-                        <input class="form-control me-2" style="width: 100px;" type="search" placeholder="Поиск" name="q" aria-label="Поиск">
+                        <input class="form-control me-2" style="width: 100px;" type="search" placeholder="Поиск" name="q" aria-label="Поиск"
+                        title="Для поиска по номеру заказа введите его номер, для поиска по статусу заказа введите букву (примеры: 'в'-'в ожидании', 'г'-'готово', 'о'-'оплачено')">
                         <button class="btn btn-outline-success" type="submit">Поиск</button>
                       </form>
                     </div>

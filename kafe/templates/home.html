@@ -1,8 +1,49 @@
 {% extends 'index_template.html' %}
-
+{% load static %}
 {% block content %}
-<div class="table-responsive">
-    Домой
+<div class="container-fluid  text-center mt-5 mb-5">
+    <div class="row mt-2 mb-2">
+
+        <div class="col-md-4">
+            <div class="card" style="width: 100%;">
+                <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
+                    <img src="{% static 'img/order.png' %}" style="width: 80px; height: 80px;" class="card-img-top" alt="menu">
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Заказы</h4>
+                    <p class="card-text">Прием заказов и их обработка.</p>
+                    <a href="{% url 'list_menu' %}" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card" style="width: 100%;">
+                <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
+                    <img src="{% static 'img/menu.png' %}" style="width: 80px; height: 80px;" class="card-img-top" alt="menu">
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Меню</h4>
+                    <p class="card-text">Создание и редактирование меню.</p>
+                    <a href="{% url 'list_menu' %}" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card" style="width: 100%;">
+                <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
+                    <img src="{% static 'img/revenue.png' %}" style="width: 80px; height: 80px;" class="card-img-top" alt="menu">
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Выручка</h4>
+                    <p class="card-text">Выручка за смену</p>
+                    <a href="{% url 'list_menu' %}" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 
